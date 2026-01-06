@@ -68,11 +68,12 @@
     }
     #face{
       position:absolute;
-      width:48px;
-      height:48px;
-      display:none;
-      pointer-events:none;
-      transform:translate(-50%, -50%);
+  width:50%;
+  height:50%;
+  display:none;
+  pointer-events:none;
+  transform:translate(-50%, -50%);
+  object-fit:contain;
     }
   </style>
 </head>
