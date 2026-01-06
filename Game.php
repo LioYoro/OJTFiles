@@ -15,7 +15,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      font-family:Arial,Helvetica,sans-serif
+      font-family:Arial,Helvetica,sans-serif;
     }
     .wrap{
       width:420px;
@@ -24,13 +24,13 @@
       border-radius:10px;
       box-shadow:0 10px 30px rgba(0,0,0,.15);
       position:relative;
-      overflow:hidden
+      overflow:hidden;
     }
     canvas{
       display:block;
       background:linear-gradient(#70c5ce,#58b3bb);
       width:100%;
-      height:100%
+      height:100%;
     }
     .hud{
       position:absolute;
@@ -38,7 +38,7 @@
       top:12px;
       color:#fff;
       font-weight:700;
-      text-shadow:0 2px 6px rgba(0,0,0,.25)
+      text-shadow:0 2px 6px rgba(0,0,0,.25);
     }
     .center{
       position:absolute;
@@ -46,7 +46,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      pointer-events:none
+      pointer-events:none;
     }
     .btn{
       pointer-events:auto;
@@ -55,7 +55,7 @@
       border:none;
       background:#fff;
       color:#222;
-      cursor:pointer
+      cursor:pointer;
     }
     .footer{
       position:absolute;
@@ -64,25 +64,32 @@
       bottom:12px;
       color:#fff;
       font-size:13px;
-      text-align:center
+      text-align:center;
     }
-    #face{
-      position:absolute;
-  width:50%;
-  height:50%;
-  display:none;
-  pointer-events:none;
-  transform:translate(-50%, -50%);
-  object-fit:contain;
-    }
+    /* Fullscreen faces */
+  /* Fullscreen faces replaced with centered faces */
+#winFace, #loseFace {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 80%;
+  height: 80%;
+  display: none;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+  z-index: 5;
+}
+
   </style>
 </head>
 <body>
   <div class="wrap">
     <canvas id="game" width="420" height="640"></canvas>
 
-    <!-- FACE PLACEHOLDER -->
-    <img id="face" src="win.jpg" alt="face">
+    <!-- FACE PLACEHOLDERS -->
+    <img id="winFace" src="win.jpg" alt="win face">
+    <img id="loseFace" src="lose.jpg" alt="lose face">
 
     <div class="hud" id="score">Score: 0</div>
 
@@ -107,7 +114,8 @@
     const scoreEl = document.getElementById('score');
     const centerEl = document.getElementById('center');
     const startBtn = document.getElementById('startBtn');
-    const faceEl = document.getElementById('face');
+    const winFaceEl = document.getElementById('winFace');
+    const loseFaceEl = document.getElementById('loseFace');
 
     const W = canvas.width, H = canvas.height;
 
@@ -129,7 +137,8 @@
 
       scoreEl.textContent = 'Score: 0';
       centerEl.style.display = 'flex';
-      faceEl.style.display = 'none';
+      winFaceEl.style.display = 'none';
+      loseFaceEl.style.display = 'none';
     }
 
     function start(){
@@ -143,7 +152,8 @@
       running = false;
       centerEl.style.display = 'flex';
       startBtn.textContent = 'Restart';
-      faceEl.style.display = 'none';
+      loseFaceEl.style.display = 'block'; // show lose face once
+      winFaceEl.style.display = 'none';
     }
 
     function flap(){
@@ -159,9 +169,15 @@
       pipes.push({
         x: W + 20,
         topH,
-        scored:false,
-        faceShown:false
+        scored:false
       });
+    }
+
+    function showWinFaceBriefly(){
+      winFaceEl.style.display = 'block';
+      setTimeout(()=> {
+        winFaceEl.style.display = 'none';
+      }, 500); // show for 0.5 seconds
     }
 
     function update(){
@@ -176,36 +192,20 @@
         const p = pipes[i];
         p.x -= 3;
 
+        // Score logic
         if (!p.scored && p.x + pipeWidth < bird.x - bird.radius) {
           p.scored = true;
           score++;
           scoreEl.textContent = 'Score: ' + score;
+
+          // Show win face briefly every pipe passed
+          showWinFaceBriefly();
         }
 
         if (p.x + pipeWidth < -50) pipes.splice(i,1);
       }
 
-      // Face logic (once per pipe)
-      for (const p of pipes){
-        const pipeCenterX = p.x + pipeWidth / 2;
-        const gapCenterY = p.topH + pipeGap / 2;
-
-        if (
-          bird.x > p.x &&
-          bird.x < p.x + pipeWidth &&
-          !p.faceShown
-        ) {
-          faceEl.style.left = pipeCenterX + 'px';
-          faceEl.style.top = gapCenterY + 'px';
-          faceEl.style.display = 'block';
-          p.faceShown = true;
-        }
-
-        if (p.faceShown && p.x + pipeWidth < bird.x - bird.radius) {
-          faceEl.style.display = 'none';
-        }
-      }
-
+      // Collisions
       if (bird.y - bird.radius <= 0 || bird.y + bird.radius >= H) {
         gameOver();
       }
