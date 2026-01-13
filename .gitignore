@@ -1,0 +1,7 @@
+# Node
+node_modules/
+EnergyTest/frontend/node_modules/
+
+# Laravel
+EnergyTest/backend/vendor/
+EnergyTest/backend/.env

@@ -1,0 +1,104 @@
+<<<<<<< HEAD
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+=======
+# ===============================
+# Node / JavaScript / Next.js
+# ===============================
+>>>>>>> e2d8ea7 (chore: update my-next-dashboard — dark-mode and weather improvements)
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+<<<<<<< HEAD
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+=======
+# Next.js build & output
+/.next/
+/out/
+/build/
+
+# npm / yarn logs
+>>>>>>> e2d8ea7 (chore: update my-next-dashboard — dark-mode and weather improvements)
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+<<<<<<< HEAD
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+=======
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Vercel / deployment
+.vercel
+
+# ===============================
+# Laravel / PHP
+# ===============================
+**/vendor/
+**/.env
+**/storage/*.key
+**/storage/debugbar/
+**/storage/logs/
+**/storage/framework/sessions/*
+**/storage/framework/views/*
+**/storage/framework/cache/data/*
+**/bootstrap/cache/*.php
+
+# Composer
+composer.lock
+
+# ===============================
+# OS / IDE / Editor
+# ===============================
+.DS_Store
+Thumbs.db
+*.pem
+*.log
+*.swp
+*.swo
+.vscode/
+.idea/
+*.iml
+
+# ===============================
+# Optional / Temp folders
+# ===============================
+**/ojt-temp/
+**/react-scripts/
+**/withAPI/
+**/npm/
+**/dist/
+**/build/
+>>>>>>> e2d8ea7 (chore: update my-next-dashboard — dark-mode and weather improvements)

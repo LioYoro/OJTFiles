@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --bg: #f8fafc;
+  --fg: #0f1724;
+  --muted: #ffffff;
+  --accent: #2563eb;
+  --card-bg: #ffffff;
+  --card-border: rgba(15,23,42,0.04);
+}
+
+html, body {
+  font-family: 'Inter', sans-serif;
+  height: 100%;
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+/* Dark mode global overrides when `dark` class is on <html> */
+.dark{
+  --bg: #0b1220;
+  --fg: #e6eef8;
+  --muted: #ffffff;
+  --accent: #60a5fa;
+  --card-bg: #071126;
+  --card-border: rgba(255,255,255,0.04);
+}
+
+/* Apply variables broadly so every element inherits readable colors in dark mode */
+.dark body { background-color: var(--bg); color: var(--fg); }
+.dark a { color: var(--accent); }
+.dark input, .dark textarea, .dark select, .dark button { color: var(--fg); }
+<<<<<<< HEAD
+.dark img, .dark svg { filter: none; }
+
+=======
+
+/* Dark-mode form controls: use card background for inputs, subtle borders, readable placeholders */
+.dark input, .dark textarea, .dark select {
+  background-color: var(--card-bg);
+  color: var(--fg);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.dark input::placeholder, .dark textarea::placeholder {
+  color: rgba(230,238,248,0.6);
+}
+.dark button {
+  background-color: var(--accent);
+  color: #0b1220;
+}
+
+/* Light-mode form defaults for consistency */
+input, textarea, select {
+  background-color: #fff;
+  color: var(--fg);
+  border: 1px solid rgba(15,23,42,0.06);
+}
+input::placeholder, textarea::placeholder { color: rgba(15,23,42,0.45); }
+
+/* Accessible focus outlines */
+input:focus, textarea:focus, select:focus, button:focus {
+  outline: 3px solid rgba(96,165,250,0.18);
+  outline-offset: 2px;
+}
+.dark img, .dark svg { filter: none; }
+
+/* Utility overrides for better contrast in dark mode */
+.dark .text-gray-500 { color: rgba(230,238,248,0.85) !important; }
+.dark .text-gray-600 { color: rgba(230,238,248,0.9) !important; }
+.dark .text-gray-700 { color: rgba(230,238,248,0.95) !important; }
+.dark .text-gray-800, .dark .text-gray-900 { color: rgba(230,238,248,0.98) !important; }
+.dark .text-gray-100 { color: rgba(230,238,248,1) !important; }
+.dark .text-primary-500 { color: var(--accent) !important; }
+.dark .text-primary-600 { color: #93c5fd !important; }
+.dark .text-green-500 { color: #34d399 !important; }
+.dark .line-through { opacity: 0.9; }
+
+/* Improve contrast for common light bg utilities used in lists/cards */
+.dark .bg-white { background-color: #071126 !important; }
+.dark .bg-gray-50 { background-color: #071126 !important; }
+.dark .card { background: var(--card-bg) !important; border-color: rgba(255,255,255,0.05) !important; }
+
+/* Make sure primary links/buttons remain visible */
+.dark a, .dark .btn-primary, .dark .text-primary-600 { color: var(--accent) !important; }
+
+>>>>>>> e2d8ea7 (chore: update my-next-dashboard — dark-mode and weather improvements)
+/* Practical fallbacks for classes used by components */
+.site-container { max-width:1100px; margin-left:auto; margin-right:auto; padding-left:1.25rem; padding-right:1.25rem }
+.card { padding:1rem; background:var(--card-bg); border-radius:0.6rem; box-shadow:0 8px 24px rgba(15,23,42,0.06); border:1px solid var(--card-border) }
+.btn-primary { display:inline-block; padding:0.5rem 0.9rem; border-radius:0.5rem; background:linear-gradient(90deg,var(--accent),#1d4ed8); color:#fff; text-decoration:none; font-weight:600 }
+.task-empty { color:var(--muted); padding:1rem }
+
+<<<<<<< HEAD
+=======
+/* Text/ghost buttons and danger buttons for small inline actions */
+.btn-text { padding: 0.25rem 0.5rem; border-radius: 0.375rem; background: transparent; color: var(--accent); font-weight:600; display:inline-block }
+.btn-danger { padding: 0.2rem 0.45rem; border-radius: 0.375rem; color: #dc2626; font-weight:600; display:inline-block }
+.btn-text:hover, .btn-danger:hover { opacity: 0.9 }
+
+.dark .btn-text { background: rgba(255,255,255,0.02); color: var(--accent) !important }
+.dark .btn-danger { background: rgba(255,255,255,0.02); color: #fecaca !important }
+
+>>>>>>> e2d8ea7 (chore: update my-next-dashboard — dark-mode and weather improvements)
+/* Link styles */
+a { color: #5b21b6; text-decoration: none }
+a:hover { text-decoration: underline }
+
+/* make top nav links inline look nicer */
+.site-container .nav-links a { padding: 0.25rem 0.5rem }
