@@ -4,32 +4,36 @@ import { useState, useEffect } from 'react';
 import { Task } from '../../types';
 import TaskCard from '../../components/TaskCard';
 
-const defaultTasks: Task[] = [
+const DEFAULT_TASKS: Task[] = [
   { id: 1, title: 'Finish report', completed: false },
   { id: 2, title: 'Review dashboard', completed: true },
   { id: 3, title: 'Send email updates', completed: false },
 ];
 
 export default function TasksPage() {
-  const [tasks, setTasks] = useState<Task[]>(defaultTasks);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState('');
 
-  // ✅ Load from localStorage (client only)
+  // ✅ Load tasks ONCE from localStorage
   useEffect(() => {
     try {
       const stored = localStorage.getItem('tasks');
+
       if (stored) {
         setTasks(JSON.parse(stored));
       } else {
-        localStorage.setItem('tasks', JSON.stringify(defaultTasks));
+        setTasks(DEFAULT_TASKS);
+        localStorage.setItem('tasks', JSON.stringify(DEFAULT_TASKS));
       }
     } catch (e) {
       console.error('Failed to load tasks', e);
     }
   }, []);
 
-  // ✅ Save to localStorage when tasks change
+  // ✅ Save tasks whenever they change
   useEffect(() => {
+    if (tasks.length === 0) return;
+
     try {
       localStorage.setItem('tasks', JSON.stringify(tasks));
       window.dispatchEvent(
@@ -42,12 +46,14 @@ export default function TasksPage() {
 
   const addTask = () => {
     if (!newTask.trim()) return;
-    const newT: Task = {
+
+    const newTaskObj: Task = {
       id: Date.now(),
       title: newTask,
       completed: false,
     };
-    setTasks(prev => [...prev, newT]);
+
+    setTasks(prev => [...prev, newTaskObj]);
     setNewTask('');
   };
 
@@ -65,12 +71,21 @@ export default function TasksPage() {
     setTasks(prev => prev.filter(task => task.id !== id));
   };
 
+  const updateTask = (id: number, patch: Partial<Task>) => {
+    setTasks(prev =>
+      prev.map(task =>
+        task.id === id ? { ...task, ...patch } : task
+      )
+    );
+  };
+
   return (
     <main className="py-8">
       <div className="site-container">
         <h1 className="text-3xl font-bold mb-4">Tasks</h1>
 
-        <div className="flex mb-4 space-x-2">
+        {/* Add task */}
+        <div className="flex mb-6 gap-2">
           <input
             type="text"
             value={newTask}
@@ -80,13 +95,14 @@ export default function TasksPage() {
           />
           <button
             onClick={addTask}
-            className="px-4 py-2 bg-blue-500 text-white rounded"
+            className="px-4 py-2 bg-blue-600 text-white rounded"
           >
             Add
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Pending */}
           <section>
             <h2 className="font-semibold mb-2">Pending</h2>
             <div className="space-y-2">
@@ -96,21 +112,17 @@ export default function TasksPage() {
                   task={task}
                   onToggle={() => toggleComplete(task.id)}
                   onDelete={() => deleteTask(task.id)}
-                  onUpdate={(id, patch) =>
-                    setTasks(prev =>
-                      prev.map(t =>
-                        t.id === id ? { ...t, ...patch } : t
-                      )
-                    )
-                  }
+                  onUpdate={updateTask}
                 />
               ))}
+
               {tasks.filter(t => !t.completed).length === 0 && (
                 <div className="card">No pending tasks</div>
               )}
             </div>
           </section>
 
+          {/* Completed */}
           <section>
             <h2 className="font-semibold mb-2">Completed</h2>
             <div className="space-y-2">
@@ -120,15 +132,10 @@ export default function TasksPage() {
                   task={task}
                   onToggle={() => toggleComplete(task.id)}
                   onDelete={() => deleteTask(task.id)}
-                  onUpdate={(id, patch) =>
-                    setTasks(prev =>
-                      prev.map(t =>
-                        t.id === id ? { ...t, ...patch } : t
-                      )
-                    )
-                  }
+                  onUpdate={updateTask}
                 />
               ))}
+
               {tasks.filter(t => t.completed).length === 0 && (
                 <div className="card">No completed tasks yet</div>
               )}
