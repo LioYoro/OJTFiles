@@ -27,15 +27,9 @@ export default function TaskCard({ task, onToggle, onDelete, onUpdate }: TaskCar
         </label>
 
         <div className="flex items-center space-x-2">
-<<<<<<< HEAD
-          <button onClick={() => setOpenNotes(prev => !prev)} className="text-sm text-primary-600">Notes</button>
-          <button onClick={onToggle} className="text-sm text-primary-600">{task.completed ? 'Undo' : 'Done'}</button>
-          <button onClick={onDelete} className="text-red-500 font-bold">✖</button>
-=======
           <button onClick={() => setOpenNotes(prev => !prev)} className="btn-text text-sm">Notes</button>
           <button onClick={onToggle} className="btn-text text-sm">{task.completed ? 'Undo' : 'Done'}</button>
           <button onClick={onDelete} className="btn-danger font-bold">✖</button>
->>>>>>> e2d8ea7 (chore: update my-next-dashboard — dark-mode and weather improvements)
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-'use client'; // MUST be first line
+'use client';
 
 import { useState, useEffect } from 'react';
 import { Task } from '../../types';
@@ -11,48 +11,53 @@ const defaultTasks: Task[] = [
 ];
 
 export default function TasksPage() {
-  const [tasks, setTasks] = useState<Task[]>(() => {
-    try {
-      const stored = localStorage.getItem('tasks');
-      if (stored) return JSON.parse(stored) as Task[];
-    } catch (e) {
-      // ignore parsing errors
-    }
-    localStorage.setItem('tasks', JSON.stringify(defaultTasks));
-    return defaultTasks;
-  });
-
+  const [tasks, setTasks] = useState<Task[]>(defaultTasks);
   const [newTask, setNewTask] = useState('');
 
+  // ✅ Load from localStorage (client only)
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('tasks');
+      if (stored) {
+        setTasks(JSON.parse(stored));
+      } else {
+        localStorage.setItem('tasks', JSON.stringify(defaultTasks));
+      }
+    } catch (e) {
+      console.error('Failed to load tasks', e);
+    }
+  }, []);
+
+  // ✅ Save to localStorage when tasks change
   useEffect(() => {
     try {
       localStorage.setItem('tasks', JSON.stringify(tasks));
-      // notify other components in the same window to update
-      try {
-        // debug
-        // eslint-disable-next-line no-console
-        console.debug('dispatching tasksUpdated', tasks.length);
-        window.dispatchEvent(new CustomEvent('tasksUpdated', { detail: tasks }));
-      } catch (e) {
-        // ignore if dispatch fails
-        // eslint-disable-next-line no-console
-        console.error('tasksUpdated dispatch failed', e);
-      }
+      window.dispatchEvent(
+        new CustomEvent('tasksUpdated', { detail: tasks })
+      );
     } catch (e) {
-      // ignore storage errors
+      console.error('Failed to save tasks', e);
     }
   }, [tasks]);
 
   const addTask = () => {
     if (!newTask.trim()) return;
-    const newT: Task = { id: Date.now(), title: newTask, completed: false };
+    const newT: Task = {
+      id: Date.now(),
+      title: newTask,
+      completed: false,
+    };
     setTasks(prev => [...prev, newT]);
     setNewTask('');
   };
 
   const toggleComplete = (id: number) => {
     setTasks(prev =>
-      prev.map(task => task.id === id ? { ...task, completed: !task.completed } : task)
+      prev.map(task =>
+        task.id === id
+          ? { ...task, completed: !task.completed }
+          : task
+      )
     );
   };
 
@@ -66,20 +71,21 @@ export default function TasksPage() {
         <h1 className="text-3xl font-bold mb-4">Tasks</h1>
 
         <div className="flex mb-4 space-x-2">
-        <input
-          type="text"
-          value={newTask}
-          onChange={e => setNewTask(e.target.value)}
-          placeholder="Add new task"
-          className="flex-1 p-2 border rounded"
-        />
-        <button
-          onClick={addTask}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Add
-        </button>
-      </div>
+          <input
+            type="text"
+            value={newTask}
+            onChange={e => setNewTask(e.target.value)}
+            placeholder="Add new task"
+            className="flex-1 p-2 border rounded"
+          />
+          <button
+            onClick={addTask}
+            className="px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            Add
+          </button>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <section>
             <h2 className="font-semibold mb-2">Pending</h2>
@@ -90,9 +96,13 @@ export default function TasksPage() {
                   task={task}
                   onToggle={() => toggleComplete(task.id)}
                   onDelete={() => deleteTask(task.id)}
-                  onUpdate={(id, patch) => {
-                    setTasks(prev => prev.map(t => t.id === id ? { ...t, ...patch } : t));
-                  }}
+                  onUpdate={(id, patch) =>
+                    setTasks(prev =>
+                      prev.map(t =>
+                        t.id === id ? { ...t, ...patch } : t
+                      )
+                    )
+                  }
                 />
               ))}
               {tasks.filter(t => !t.completed).length === 0 && (
@@ -110,9 +120,13 @@ export default function TasksPage() {
                   task={task}
                   onToggle={() => toggleComplete(task.id)}
                   onDelete={() => deleteTask(task.id)}
-                  onUpdate={(id, patch) => {
-                    setTasks(prev => prev.map(t => t.id === id ? { ...t, ...patch } : t));
-                  }}
+                  onUpdate={(id, patch) =>
+                    setTasks(prev =>
+                      prev.map(t =>
+                        t.id === id ? { ...t, ...patch } : t
+                      )
+                    )
+                  }
                 />
               ))}
               {tasks.filter(t => t.completed).length === 0 && (

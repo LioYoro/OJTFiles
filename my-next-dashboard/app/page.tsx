@@ -1,8 +1,5 @@
 import HomeOverview from '../components/HomeOverview';
-<<<<<<< HEAD
-=======
 import Link from 'next/link';
->>>>>>> e2d8ea7 (chore: update my-next-dashboard — dark-mode and weather improvements)
 
 export default function Home() {
   return (
@@ -16,13 +13,6 @@ export default function Home() {
         <HomeOverview />
 
         <section className="card mt-6">
-<<<<<<< HEAD
-          <h2 className="font-bold text-xl">What's New</h2>
-          <ul className="mt-2 list-disc list-inside text-sm text-gray-700 dark:text-gray-300">
-            <li>Persistent tasks with localStorage</li>
-            <li>Improved dark mode with system preference</li>
-            <li>Filtered tasks view (pending/completed)</li>
-=======
           <h2 className="font-bold text-xl">Project List</h2>
           <ul className="mt-2 list-disc list-inside text-sm text-gray-700 dark:text-gray-300">
             <li>
@@ -40,7 +30,6 @@ export default function Home() {
                 Stats
               </Link>
             </li>
->>>>>>> e2d8ea7 (chore: update my-next-dashboard — dark-mode and weather improvements)
           </ul>
         </section>
       </div>
