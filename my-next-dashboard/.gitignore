@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-=======
 # ===============================
 # Node / JavaScript / Next.js
 # ===============================
->>>>>>> e2d8ea7 (chore: update my-next-dashboard — dark-mode and weather improvements)
+
+# dependencies
 /node_modules
 /.pnp
 .pnp.*
@@ -16,52 +12,29 @@
 !.yarn/releases
 !.yarn/versions
 
-<<<<<<< HEAD
+# Next.js build & output
+/.next/
+ /out/
+/build/
+ /dist/
+
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-=======
-# Next.js build & output
-/.next/
-/out/
-/build/
-
-# npm / yarn logs
->>>>>>> e2d8ea7 (chore: update my-next-dashboard — dark-mode and weather improvements)
+# logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*.log
 
-<<<<<<< HEAD
-# env files (can opt-in for committing if needed)
+# env files
 .env*
-
-# vercel
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-=======
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
-
-# Vercel / deployment
-.vercel
 
 # ===============================
 # Laravel / PHP
@@ -85,7 +58,6 @@ composer.lock
 .DS_Store
 Thumbs.db
 *.pem
-*.log
 *.swp
 *.swo
 .vscode/
@@ -93,12 +65,12 @@ Thumbs.db
 *.iml
 
 # ===============================
-# Optional / Temp folders
+# Optional / Temp / Local folders
 # ===============================
 **/ojt-temp/
 **/react-scripts/
 **/withAPI/
 **/npm/
-**/dist/
-**/build/
->>>>>>> e2d8ea7 (chore: update my-next-dashboard — dark-mode and weather improvements)
+
+# Local projects (DO NOT COMMIT)
+LioYoroProjects/

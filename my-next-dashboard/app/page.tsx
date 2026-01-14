@@ -21,6 +21,11 @@ export default function Home() {
               </Link>
             </li>
             <li>
+            <Link href="/music" className="text-blue-600 hover:underline">
+              Music Player — Local Songs & Lyrics
+            </Link>
+          </li>
+            <li>
               <Link href="/tasks" className="text-blue-600 hover:underline">
                 Tasks
               </Link>
